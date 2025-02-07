@@ -80,6 +80,10 @@ const ComponentRenderer = ({ component, parentId, moveComponent, deleteComponent
   };
 
   const renderContent = () => {
+    const backgroundStyle = component.properties.backgroundColor
+      ? { backgroundColor: component.properties.backgroundColor }
+      : {};
+
     switch (component.type) {
       case 'Column':
       case 'Row':
@@ -87,7 +91,7 @@ const ComponentRenderer = ({ component, parentId, moveComponent, deleteComponent
           <div
             className={`container ${component.type.toLowerCase()}`}
             style={{
-              backgroundColor: component.properties.backgroundColor,
+              ...backgroundStyle,
               borderColor: isOver ? 'blue' : '#ccc',
               minHeight: '100px',
               display: 'flex',
@@ -320,6 +324,14 @@ const PropertiesPanel = ({ component, updateComponent }) => {
       {['Column', 'Row'].includes(component.type) && (
         <>
           <label>
+            Background Color:
+            <input
+              type="color"
+              value={localState.backgroundColor}
+              onChange={(e) => handleChange('backgroundColor', e.target.value)}
+            />
+          </label>
+          <label>
             Main Axis Alignment:
             <select
               value={localState.mainAxisAlignment}
@@ -358,6 +370,7 @@ const PropertiesPanel = ({ component, updateComponent }) => {
     </div>
   );
 };
+
 
 const App = () => {
   const [components, setComponents] = useState([]);

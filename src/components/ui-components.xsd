@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="UIComponent">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Column"/>
+        <xs:element ref="Row"/>
+        <xs:element ref="Text"/>
+        <xs:element ref="Button"/>
+        <xs:element ref="Input"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Column">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="UIComponent" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="mainAxisAlignment" type="Alignment" use="optional" default="start"/>
+      <xs:attribute name="crossAxisAlignment" type="Alignment" use="optional" default="start"/>
+      <xs:attribute name="backgroundColor" type="xs:string" use="optional" default="#FFFFFF"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Row">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="UIComponent" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="mainAxisAlignment" type="Alignment" use="optional" default="start"/>
+      <xs:attribute name="crossAxisAlignment" type="Alignment" use="optional" default="start"/>
+      <xs:attribute name="backgroundColor" type="xs:string" use="optional" default="#FFFFFF"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Text">
+    <xs:complexType>
+      <xs:attribute name="value" type="xs:string" use="required"/>
+      <xs:attribute name="fontSize" type="xs:positiveInteger" use="optional" default="14"/>
+      <xs:attribute name="color" type="xs:string" use="optional" default="#000000"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Button">
+    <xs:complexType>
+      <xs:attribute name="text" type="xs:string" use="required"/>
+      <xs:attribute name="color" type="xs:string" use="optional" default="#007BFF"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Input">
+    <xs:complexType>
+      <xs:attribute name="placeholder" type="xs:string" use="optional" default="Enter text..."/>
+      <xs:attribute name="backgroundColor" type="xs:string" use="optional" default="#FFFFFF"/>
+      <xs:attribute name="textColor" type="xs:string" use="optional" default="#000000"/>
+      <xs:attribute name="fontSize" type="xs:positiveInteger" use="optional" default="14"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="Alignment">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="start"/>
+      <xs:enumeration value="center"/>
+      <xs:enumeration value="end"/>
+      <xs:enumeration value="space-between"/>
+      <xs:enumeration value="space-around"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

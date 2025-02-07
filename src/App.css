@@ -1,0 +1,227 @@
+body {
+  background: #b1a7a7;
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  height: 100vh;
+}
+
+.components-panel {
+  width: 200px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+}
+
+.components-panel h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.component-item {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  cursor: move;
+  background: white;
+  transition: all 0.2s;
+  color: black;
+}
+
+.component-item:hover {
+  background: #f8f9fa;
+}
+
+.phone-surface {
+  width: 375px;
+  height: 667px;
+  border: 2px solid #ccc;
+  border-radius: 30px;
+  padding: 20px;
+  background: white;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.phone-surface::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 30px;
+  pointer-events: none;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.phone-surface:hover::after {
+  border-color: #007bff;
+}
+
+.container {
+  padding: 15px;
+  margin: 10px 0;
+  border: 2px dashed #ccc;
+  min-height: 100px;
+  min-width: 100px;
+  position: relative;
+  transition: all 0.2s;
+  z-index: 1;
+}
+
+.container.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container.row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.container:hover {
+  border-color: #007bff;
+}
+
+.text-component {
+  padding: 5px;
+  color: #333;
+  min-height: 20px;
+  position: relative;
+}
+
+.button-component {
+  padding: 8px 16px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.input-component {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 5px 0;
+  width: 200px;
+}
+
+.code-generator {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background: #f8f9fa;
+  overflow: auto;
+  border-radius: 4px;
+  color: black;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+
+.workspace {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.empty-message {
+  color: #999;
+  font-size: 12px;
+  padding: 8px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.component-wrapper {
+  min-height: 40px;
+  margin: 10px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 300px;
+}
+
+.properties-panel {
+  padding: 15px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  color: black;
+}
+
+.properties-panel label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.properties-panel input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.properties-panel input[type="color"] {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  line-height: 1;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  background: #cc0000;
+}
+.validation-error {
+  color: #ff4444;
+  background-color: #ffeeee;
+  padding: 10px;
+  border: 1px solid #ff4444;
+  border-radius: 4px;
+  margin-top: 10px;
+}

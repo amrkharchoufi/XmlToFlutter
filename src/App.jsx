@@ -20,7 +20,7 @@ const createComponent = (type) => {
       inputColor: '#ffffff',
       mainAxisAlignment: 'start',
       crossAxisAlignment: 'start',
-    }
+    },
   };
 };
 
@@ -31,7 +31,7 @@ const alignmentToFlex = (alignment) => {
     center: 'center',
     end: 'flex-end',
     'space-between': 'space-between',
-    'space-around': 'space-around'
+    'space-around': 'space-around',
   };
   return map[alignment] || 'flex-start';
 };
@@ -41,8 +41,8 @@ const DraggableComponent = ({ type }) => {
     type: 'component',
     item: { type },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging()
-    })
+      isDragging: monitor.isDragging(),
+    }),
   }));
 
   return (
@@ -70,8 +70,8 @@ const ComponentRenderer = ({ component, parentId, moveComponent, deleteComponent
     },
     canDrop: (item) => ['Column', 'Row'].includes(component.type),
     collect: (monitor) => ({
-      isOver: monitor.isOver({ shallow: true }) // Only check immediate drop target
-    })
+      isOver: monitor.isOver({ shallow: true }), // Only check immediate drop target
+    }),
   }));
 
   const handleClick = (e) => {
@@ -116,7 +116,7 @@ const ComponentRenderer = ({ component, parentId, moveComponent, deleteComponent
               />
             ))}
             {isSelected && (
-              <button 
+              <button
                 className="delete-button"
                 onClick={() => deleteComponent(component.id)}
               >
@@ -127,17 +127,17 @@ const ComponentRenderer = ({ component, parentId, moveComponent, deleteComponent
         );
       case 'Text':
         return (
-          <div 
+          <div
             className="text-component"
             style={{
               fontSize: `${component.properties.fontSize}px`,
-              color: component.properties.textColor
+              color: component.properties.textColor,
             }}
             onClick={handleClick}
           >
             {component.text}
             {isSelected && (
-              <button 
+              <button
                 className="delete-button"
                 onClick={() => deleteComponent(component.id)}
               >
@@ -148,17 +148,17 @@ const ComponentRenderer = ({ component, parentId, moveComponent, deleteComponent
         );
       case 'Button':
         return (
-          <button 
+          <button
             className="button-component"
             style={{
               backgroundColor: component.properties.buttonColor,
-              color: 'white'
+              color: 'white',
             }}
             onClick={handleClick}
           >
             {component.text}
             {isSelected && (
-              <button 
+              <button
                 className="delete-button"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -179,11 +179,11 @@ const ComponentRenderer = ({ component, parentId, moveComponent, deleteComponent
               style={{
                 backgroundColor: component.properties.inputColor,
                 color: component.properties.textColor,
-                fontSize: `${component.properties.fontSize}px`
+                fontSize: `${component.properties.fontSize}px`,
               }}
             />
             {isSelected && (
-              <button 
+              <button
                 className="delete-button"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -222,8 +222,8 @@ const PhoneSurface = ({ components, moveComponent, deleteComponent, selectCompon
       moveComponent(null, newComponent);
     },
     collect: (monitor) => ({
-      isOver: monitor.isOver({ shallow: true }) // Only check immediate drop target
-    })
+      isOver: monitor.isOver({ shallow: true }), // Only check immediate drop target
+    }),
   }));
 
   return (
@@ -246,8 +246,6 @@ const PhoneSurface = ({ components, moveComponent, deleteComponent, selectCompon
     </div>
   );
 };
-
-
 
 const PropertiesPanel = ({ component, updateComponent }) => {
   const [localState, setLocalState] = useState(component?.properties || {});
@@ -337,8 +335,10 @@ const PropertiesPanel = ({ component, updateComponent }) => {
               value={localState.mainAxisAlignment}
               onChange={(e) => handleChange('mainAxisAlignment', e.target.value)}
             >
-              {['start', 'center', 'end', 'space-between', 'space-around'].map(option => (
-                <option key={option} value={option}>{option}</option>
+              {['start', 'center', 'end', 'space-between', 'space-around'].map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
           </label>
@@ -348,8 +348,10 @@ const PropertiesPanel = ({ component, updateComponent }) => {
               value={localState.crossAxisAlignment}
               onChange={(e) => handleChange('crossAxisAlignment', e.target.value)}
             >
-              {['start', 'center', 'end'].map(option => (
-                <option key={option} value={option}>{option}</option>
+              {['start', 'center', 'end'].map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
           </label>
@@ -371,7 +373,6 @@ const PropertiesPanel = ({ component, updateComponent }) => {
   );
 };
 
-
 const App = () => {
   const [components, setComponents] = useState([]);
   const [selectedComponent, setSelectedComponent] = useState(null);
@@ -388,26 +389,26 @@ const App = () => {
   };
 
   const deleteComponent = (id) => {
-    setComponents(prev => {
+    setComponents((prev) => {
       const result = findComponent(prev, id);
       if (!result) return prev;
-      
+
       const newComponents = [...prev];
       if (!result.parent) {
-        return newComponents.filter(c => c.id !== id);
+        return newComponents.filter((c) => c.id !== id);
       }
-      
-      result.parent.children = result.parent.children.filter(c => c.id !== id);
+
+      result.parent.children = result.parent.children.filter((c) => c.id !== id);
       return JSON.parse(JSON.stringify(newComponents));
     });
     setSelectedComponent(null);
   };
 
   const updateComponent = (id, newProperties) => {
-    setComponents(prev => {
+    setComponents((prev) => {
       const result = findComponent(prev, id);
       if (!result) return prev;
-      
+
       const updated = JSON.parse(JSON.stringify(prev));
       const target = findComponent(updated, id).item;
       target.properties = { ...target.properties, ...newProperties };
@@ -419,15 +420,15 @@ const App = () => {
     setComponents((prev) => {
       const newItems = JSON.parse(JSON.stringify(prev));
       if (parentId === null) {
-        if (!newItems.some(c => c.id === component.id)) {
+        if (!newItems.some((c) => c.id === component.id)) {
           newItems.push(component);
         }
         return newItems;
       }
-      
+
       const parent = findComponent(newItems, parentId)?.item;
       if (parent && parent.children) {
-        if (!parent.children.some(c => c.id === component.id)) {
+        if (!parent.children.some((c) => c.id === component.id)) {
           parent.children.push(component);
         }
       }
@@ -436,31 +437,44 @@ const App = () => {
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider className="container" backend={HTML5Backend}>
       <div className="app">
-        <div className="components-panel">
-          <h3>Components</h3>
-          <DraggableComponent type="Text" />
-          <DraggableComponent type="Button" />
-          <DraggableComponent type="Input" />
-          <DraggableComponent type="Column" />
-          <DraggableComponent type="Row" />
+        {/* App Bar */}
+        <div className="app-bar">
+          <h1>FlutterFlow Clone</h1>
+          <div className="app-bar-actions">
+            <button className="export-button">Export Project</button>
+            <button className="preview-button">Preview</button>
+          </div>
         </div>
-        
-        <div className="workspace">
-          <PhoneSurface
-            components={components}
-            moveComponent={moveComponent}
-            deleteComponent={deleteComponent}
-            selectComponent={setSelectedComponent}
-            selectedComponent={selectedComponent}
-          />
-          <div className="right-panel">
-            <PropertiesPanel
-              component={findComponent(components, selectedComponent)?.item}
-              updateComponent={updateComponent}
+
+        <div className="main-content">
+          <div className="components-panel">
+            <h3>UI Components</h3>
+            <div className="components-grid">
+              <DraggableComponent type="Text" />
+              <DraggableComponent type="Button" />
+              <DraggableComponent type="Input" />
+              <DraggableComponent type="Column" />
+              <DraggableComponent type="Row" />
+            </div>
+          </div>
+
+          <div className="workspace">
+            <PhoneSurface
+              components={components}
+              moveComponent={moveComponent}
+              deleteComponent={deleteComponent}
+              selectComponent={setSelectedComponent}
+              selectedComponent={selectedComponent}
             />
-            <CodeGenerator components={components} />
+            <div className="right-panel">
+              <PropertiesPanel
+                component={findComponent(components, selectedComponent)?.item}
+                updateComponent={updateComponent}
+              />
+              <CodeGenerator components={components} />
+            </div>
           </div>
         </div>
       </div>

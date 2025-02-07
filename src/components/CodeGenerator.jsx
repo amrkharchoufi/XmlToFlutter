@@ -93,36 +93,40 @@ ${xmlContent}
 
   const transformXML = async (xmlString) => {
     if (!xsltContent) throw new Error('XSLT content is not loaded');
-
+  
     try {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlString, 'application/xml');
       const xsltDoc = parser.parseFromString(xsltContent, 'application/xml');
-
+  
       const processor = new XSLTProcessor();
       processor.importStylesheet(xsltDoc);
-
+  
       const resultDoc = processor.transformToDocument(xmlDoc);
-
-      // Extract text content and remove HTML wrapper
       let result = resultDoc.documentElement.textContent;
-
-      // Clean up extra whitespace
-      result = result.replace(/\s+/g, ' ').trim();
-
+  
+      // Ensure proper formatting with indentation and new lines
+      result = result
+        .replace(/\s+/g, ' ') // Normalize spaces
+        .replace(/([{};])/g, '$1\n') // Add new lines after braces and semicolons
+        .replace(/\n\s*\n/g, '\n') // Remove excess blank lines
+        .trim();
+  
       return result;
     } catch (error) {
       console.error('XSLT Transformation Error:', error);
       throw error;
     }
   };
+  
 
   return (
     <div className="code-generator">
-      <h4>Generated XML:</h4>
-      <pre>{xmlCode || 'No components available'}</pre>
+     
       <h4>Generated Flutter Code:</h4>
       <pre>{flutterCode || 'No Flutter code available'}</pre>
+      <h4>Generated XML:</h4>
+      <pre>{xmlCode || 'No components available'}</pre>
       {validationError && (
         <div className="validation-error">
           <strong>Validation Error:</strong> {validationError}
